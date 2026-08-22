@@ -17,6 +17,9 @@ jobs:
   pytest:
     timeout-minutes: 20
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash -el {0}
     strategy:
       fail-fast: false
       matrix:
@@ -41,8 +44,7 @@ jobs:
             qt: PySide6
     steps:
     - uses: actions/checkout@v7.0.1
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v7.0.0
+    - uses: actions/setup-python@v7.0.0
       with:
         python-version: ${{ matrix.python-version }}
     - uses: pyvista/setup-headless-display-action@main
@@ -56,9 +58,11 @@ jobs:
     - name: Clone MNE main
       if: "matrix.mne-version == 'mne-main'"
       run: git clone --single-branch --branch main https://github.com/mne-tools/mne-python.git
-    - run: pip install -ve ./mne-python
-    - run: pip install -v "${{ matrix.qt }}!=6.6.0,!=6.10.0" "PyQt6-Qt6!=6.6.0,!=6.7.0,!=6.10.0,!=6.10.1,!=6.10.2"
-    - run: pip install -ve .[tests]
+    - run: git fetch origin --tags
+      working-directory: mne-python
+    - run: pip install -ve .
+      working-directory: mne-python
+    - run: pip install -ve .[tests] "${{ matrix.qt }}"
     - run: mne sys_info
     - name: Check Qt import
       uses: mne-tools/mne-tools/actions/check-qt-import@main

@@ -24,6 +24,7 @@ jobs:
               set -e
               set -o pipefail
               git clone --single-branch --branch main git@github.com:/mne-tools/mne-python.git
+              pushd mne-python; git fetch origin --tags; popd
               git clone --single-branch --branch main git@github.com:/mne-tools/mne-tools.git
               ./mne-tools/tools/setup_xvfb.sh
               sudo apt install -qq graphviz optipng python3.10-venv python3-venv libxft2 ffmpeg
@@ -43,9 +44,9 @@ jobs:
         - run:
             name: Get Python running
             command: |
-              pip install --upgrade PyQt6!=6.6.0 "PyQt6-Qt6!=6.6.0,!=6.7.0" sphinx-gallery pydata-sphinx-theme numpydoc scikit-learn nilearn mne-bids autoreject pyvista memory_profiler sphinxcontrib.bibtex sphinxcontrib.youtube darkdetect qdarkstyle
-              pip install --pre --progress-bar off --only-binary dipy --extra-index-url "https://pypi.anaconda.org/scientific-python-nightly-wheels/simple" "dipy>1.9"
-              pip install -ve ./mne-python .
+              pip install --upgrade \
+                sphinx-gallery pydata-sphinx-theme numpydoc scikit-learn nilearn mne-bids autoreject pyvista memory_profiler sphinxcontrib.bibtex sphinxcontrib.youtube darkdetect qdarkstyle dipy \
+                -e ./mne-python -e . PySide6
         - run:
             name: Check Qt
             command: |
