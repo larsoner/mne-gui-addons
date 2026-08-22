@@ -44,9 +44,7 @@ jobs:
         - run:
             name: Get Python running
             command: |
-              pip install --upgrade \
-                sphinx-gallery pydata-sphinx-theme numpydoc scikit-learn nilearn mne-bids autoreject pyvista memory_profiler sphinxcontrib.bibtex sphinxcontrib.youtube darkdetect qdarkstyle dipy \
-                -e ./mne-python -e . PySide6
+              pip install --upgrade -e ./mne-python -e . --group docs PySide6
         - run:
             name: Check Qt
             command: |
