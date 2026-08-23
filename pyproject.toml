@@ -39,7 +39,7 @@ test = [
 doc = [
     "sphinx-gallery",
     "pydata-sphinx-theme",
-    "numpydoc", 
+    "numpydoc",
     "scikit-learn",
     "nilearn",
     "mne-bids",

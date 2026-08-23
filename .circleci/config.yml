@@ -45,11 +45,11 @@ jobs:
             name: Get Python running
             command: |
               pip install --upgrade pip
-              pip install --upgrade -e ./mne-python -e . --group docs PySide6
+              pip install --upgrade -e ./mne-python -e . --group doc PySide6
         - run:
             name: Check Qt
             command: |
-              ./mne-tools/tools/check_qt_import.sh PyQt6
+              ./mne-tools/tools/check_qt_import.sh PySide6
         - run:
             name: Check installation
             command: |
