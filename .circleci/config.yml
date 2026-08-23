@@ -5,8 +5,8 @@ jobs:
         scheduled:
           type: string
           default: "false"
-      docker:
-        - image: cimg/base:current-22.04
+      machine:
+        image: ubuntu-2604:2026.05.1
       steps:
         - checkout
         - run:
@@ -27,8 +27,8 @@ jobs:
               pushd mne-python; git fetch origin --tags; popd
               git clone --single-branch --branch main git@github.com:/mne-tools/mne-tools.git
               ./mne-tools/tools/setup_xvfb.sh
-              sudo apt install -qq graphviz optipng python3.10-venv python3-venv libxft2 ffmpeg
-              python3.10 -m venv ~/python_env
+              sudo apt install -qq graphviz optipng python3-venv libxft2 ffmpeg
+              python -m venv ~/python_env
               echo "set -e" >> $BASH_ENV
               echo "export OPENBLAS_NUM_THREADS=4" >> $BASH_ENV
               echo "export XDG_RUNTIME_DIR=/tmp/runtime-circleci" >> $BASH_ENV
